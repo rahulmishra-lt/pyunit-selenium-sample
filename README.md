@@ -1,7 +1,18 @@
-## Welcome to ![LambdaTest Logo](https://www.lambdatest.com/static/images/logo.svg) - Python-UnitTest-Selenium Sample
---- 
+## Welcome to ![LambdaTest Logo](https://www.lambdatest.com/resources/images/logos/logo.svg) - Python-UnitTest-Selenium Sample
 
-### Step 1 : Environment Setup
+---
+
+### Step 1 : Virtual Environment Setup
+
+ensure python3 is installed on your machine
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+### Step 2 : Setup Credentials
 
 #### Lambdatest Credentials
 
@@ -10,56 +21,61 @@ Set LambdaTest username and access key in environment variables in the file `lam
 Replace the values with your credentials, you can find them at (https://www.lambdatest.com/capabilities-generator/)
 
 ```
-ln 1: export LT_USERNAME="Your Username"
-ln 2: export LT_ACCESS_KEY="Your Access key"
+export LT_USERNAME="Your Username"
+export LT_ACCESS_KEY="Your Access key"
 ```
+
 ![Lamdatest Credentials](/assets/screenshot.png)
 
-After your save your credentials at `lambdatest.env` please run the command: 
+After your save your credentials at `lambdatest.env` please run the command:
 
 ```
 $ source lambdatest.env
 ```
 
-### Step 2: Setting up your test capabilites
+### Step 3: Setting up your test capabilites
 
-You can genegate the test capabilites at (https://www.lambdatest.com/capabilities-generator/) and choose **Python** as the language. 
+You can genegate the test capabilites at (https://www.lambdatest.com/capabilities-generator/) and choose **Python** as the language.
 
-Now, can setup the capabilites of the test in the `single_test.py` file at: 
-
-```
-ln 13: desired_caps = {
-ln 14:           "build": 'PyunitTest sample build',
-ln 15:            "name": 'Py-unittest',
-ln 16:           "platform": 'Windows 10',
-ln 17:            "browserName": 'chrome',
-ln 18:           "version": 'latest',
-ln 19:           "console": 'true',
-ln 20:           "network":'true'
-ln 21:        }
+Now, can setup the capabilites of the test in the `single_test.py` file:
 
 ```
+ lt_options = {
+            "build": 'PyunitTest sample build',  # Change your build name here
+            "name": 'Py-unittest',  # Change your test name here
+            "platformName": 'Windows 10',  # Change your OS version here
+            "browserName": 'chrome',  # Change your browser here
+            "browserVersion": 'latest'  # Change your browser version here
+        }
+```
 
-You can setup the capabilites of your test in the `parallel_test.py` file at: 
+You can setup the capabilites of your test in the `parallel_test.py` file at:
 
 ```
 browsers = [
-    {"build": 'PyunitTest sample build',"name": "Test 1", "platform": "Windows 10","browserName": "Chrome", "version": "latest"},
-    {"build": 'PyunitTest sample build',"name": "Test 2", "platform": "Windows 10","browserName": "edge", "version": "latest"}
+    {"build": 'PyunitTest sample build', "name": "Test 1", "platform": "Windows 10", "browserName": "Chrome", "version": "latest"},
+    {"build": 'PyunitTest sample build', "name": "Test 2", "platform": "Windows 10", "browserName": "edge", "version": "latest"},
+    {"build": 'PyunitTest sample build', "name": "Test 3", "platform": "Windows 10", "browserName": "firefox", "version": "latest"}
 ]
 ```
 
-### Step 3: Running Tests
-To start a single test Run following command: <br/><br/>
+### Step 4: Running Tests
+
+To start a single test Run following command:
 
 ```
-$ python single_test.py 
+$ python single_test.py
 ```
 
-To start a parallel test Run the following command: <br/><br/>
+<br/>
+
+To start a parallel test Run the following command:
+
 ```
 $ python parallel_test.py
 ```
+
+<br/>
 
 ## About LambdaTest
 
@@ -68,4 +84,5 @@ $ python parallel_test.py
 ### For further References
 
 ##### [SeleniumHQ Documentation](http://www.seleniumhq.org/docs/)
+
 ##### [UnitTest Documentation](https://docs.python.org/2/library/unittest.html)

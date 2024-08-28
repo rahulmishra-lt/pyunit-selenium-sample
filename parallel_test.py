@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.keys import Keys
 
 username = os.environ.get("LT_USERNAME")
@@ -17,6 +18,8 @@ def get_browser(caps):
         options = ChromeOptions()
     elif caps["browserName"].lower() == "edge":
         options = EdgeOptions()
+    elif caps["browserName"].lower() == "firefox":
+        options = FirefoxOptions()
     else:
         raise ValueError(f"Unsupported browser: {caps['browserName']}")
     
@@ -30,7 +33,8 @@ def get_browser(caps):
 # You can configure your test capabilities here
 browsers = [
     {"build": 'PyunitTest sample build', "name": "Test 1", "platform": "Windows 10", "browserName": "Chrome", "version": "latest"},
-    {"build": 'PyunitTest sample build', "name": "Test 2", "platform": "Windows 10", "browserName": "edge", "version": "latest"}
+    {"build": 'PyunitTest sample build', "name": "Test 2", "platform": "Windows 10", "browserName": "edge", "version": "latest"},
+    {"build": 'PyunitTest sample build', "name": "Test 3", "platform": "Windows 10", "browserName": "firefox", "version": "latest"}
 ]
 
 browsers_waiting = []
