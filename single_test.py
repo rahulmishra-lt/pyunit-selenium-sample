@@ -2,58 +2,64 @@ import os
 import unittest
 import sys
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 username = os.environ.get("LT_USERNAME")
 access_key = os.environ.get("LT_ACCESS_KEY")
 
-
 class FirstSampleTest(unittest.TestCase):
-    # Generate capabilites from here: https://www.lambdatest.com/capabilities-generator/
-    # setUp runs before each test case and 
+    # Generate capabilities from here: https://www.lambdatest.com/capabilities-generator/
+    # setUp runs before each test case
     def setUp(self):
-        desired_caps = {
+        options = ChromeOptions()
+        lt_options = {
             "build": 'PyunitTest sample build',  # Change your build name here
             "name": 'Py-unittest',  # Change your test name here
-            "platform": 'Windows 10',  # Change your OS version here
+            "platformName": 'Windows 10',  # Change your OS version here
             "browserName": 'chrome',  # Change your browser here
-            "version": 'latest'  # Change your browser version here
+            "browserVersion": 'latest'  # Change your browser version here
         }
+        options.set_capability('LT:Options', lt_options)
+
         self.driver = webdriver.Remote(
-            command_executor="https://{}:{}@hub.lambdatest.com/wd/hub".format(username, access_key),
-            desired_capabilities=desired_caps)
+            command_executor=f"https://{username}:{access_key}@hub.lambdatest.com/wd/hub",
+            options=options
+        )
 
     # tearDown runs after each test case
     def tearDown(self):
         self.driver.quit()
 
-    # """ You can write the test cases here """
+    # You can write the test cases here
     def test_unit_user_should_able_to_add_item(self):
-        # try:
         driver = self.driver
+        wait = WebDriverWait(driver, 10)
 
         # Url
         driver.get("https://lambdatest.github.io/sample-todo-app/")
 
         # Click on check box
-        check_box_one = driver.find_element_by_name("li1")
+        check_box_one = wait.until(EC.element_to_be_clickable((By.NAME, "li1")))
         check_box_one.click()
 
         # Click on check box
-        check_box_two = driver.find_element_by_name("li2")
+        check_box_two = wait.until(EC.element_to_be_clickable((By.NAME, "li2")))
         check_box_two.click()
 
         # Enter item in textfield
-        textfield = driver.find_element_by_id("sampletodotext")
+        textfield = wait.until(EC.presence_of_element_located((By.ID, "sampletodotext")))
         textfield.send_keys("Yey, Let's add it to list")
 
         # Click on add button
-        add_button = driver.find_element_by_id("addbutton")
+        add_button = wait.until(EC.element_to_be_clickable((By.ID, "addbutton")))
         add_button.click()
 
         # Verified added item
-        added_item = driver.find_element_by_xpath("//span[@class='done-false']").text
+        added_item = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@class='done-false']"))).text
         print(added_item)
-
 
 if __name__ == "__main__":
     unittest.main()
